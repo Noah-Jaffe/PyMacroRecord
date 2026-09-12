@@ -83,6 +83,13 @@
           "lower_text": "Inferiore:",
           "upper_text": "Superiore:",
           "error_new_value": "Entrambi i limiti del ritardo casuale devono essere numeri validi."
+        },
+        "distribution_drawer_settings": {
+          "title": "Personalizza la distribuzione",
+          "sub_text": "Disegna la frequenza con cui dovrebbe verificarsi ciascun ritardo.",
+          "more_text": "Più frequente",
+          "less_text": "Meno frequente",
+          "clear_text": "Cancella"
         }
       },
       "recordings_menu": {

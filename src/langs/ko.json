@@ -83,6 +83,13 @@
           "lower_text": "하한:",
           "upper_text": "상한:",
           "error_new_value": "무작위 지연의 두 범위 모두 유효한 숫자여야 합니다."
+        },
+        "distribution_drawer_settings": {
+          "title": "분포 사용자 지정",
+          "sub_text": "각 지연이 얼마나 자주 발생할지 그려보세요.",
+          "more_text": "더 자주",
+          "less_text": "덜 자주",
+          "clear_text": "지우기"
         }
       },
       "recordings_menu": {

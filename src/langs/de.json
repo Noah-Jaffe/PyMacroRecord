@@ -83,6 +83,13 @@
           "lower_text": "Untergrenze:",
           "upper_text": "Obergrenze:",
           "error_new_value": "Beide Grenzen der zufälligen Verzögerung müssen gültige Zahlen sein."
+        },
+        "distribution_drawer_settings": {
+          "title": "Verteilung anpassen",
+          "sub_text": "Zeichnen Sie, wie häufig jede Verzögerung vorkommen soll.",
+          "more_text": "Häufiger",
+          "less_text": "Seltener",
+          "clear_text": "Löschen"
         }
       },
       "recordings_menu": {

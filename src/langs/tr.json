@@ -84,6 +84,13 @@
           "lower_text": "Alt:",
           "upper_text": "Üst:",
           "error_new_value": "Rastgele gecikmenin her iki sınırı da geçerli sayılar olmalıdır."
+        },
+        "distribution_drawer_settings": {
+          "title": "Dağılımı özelleştir",
+          "sub_text": "Her gecikmenin ne kadar sık olması gerektiğini çizin.",
+          "more_text": "Daha sık",
+          "less_text": "Daha az sık",
+          "clear_text": "Temizle"
         }
       },
       "recordings_menu": {

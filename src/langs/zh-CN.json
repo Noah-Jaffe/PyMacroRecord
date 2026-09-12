@@ -83,6 +83,13 @@
           "lower_text": "下限：",
           "upper_text": "上限：",
           "error_new_value": "随机延迟的两个范围都必须是有效数字。"
+        },
+        "distribution_drawer_settings": {
+          "title": "自定义分布",
+          "sub_text": "绘制每种延迟出现的频率。",
+          "more_text": "更常见",
+          "less_text": "较少见",
+          "clear_text": "清除"
         }
       },
       "recordings_menu": {

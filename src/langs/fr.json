@@ -83,6 +83,13 @@
           "lower_text": "Inférieure :",
           "upper_text": "Supérieure :",
           "error_new_value": "Les deux limites du délai aléatoire doivent être des nombres valides."
+        },
+        "distribution_drawer_settings": {
+          "title": "Personnaliser la distribution",
+          "sub_text": "Dessinez la fréquence à laquelle chaque délai doit apparaître.",
+          "more_text": "Plus fréquent",
+          "less_text": "Moins fréquent",
+          "clear_text": "Effacer"
         }
       },
       "recordings_menu": {

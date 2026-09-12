@@ -83,6 +83,13 @@
           "lower_text": "Ondergrens:",
           "upper_text": "Bovengrens:",
           "error_new_value": "Beide grenzen van de willekeurige vertraging moeten geldige getallen zijn."
+        },
+        "distribution_drawer_settings": {
+          "title": "Verdeling aanpassen",
+          "sub_text": "Teken hoe vaak elke vertraging moet voorkomen.",
+          "more_text": "Vaker",
+          "less_text": "Minder vaak",
+          "clear_text": "Wissen"
         }
       },
       "recordings_menu": {

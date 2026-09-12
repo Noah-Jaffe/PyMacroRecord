@@ -83,6 +83,13 @@
           "lower_text": "Inferior:",
           "upper_text": "Superior:",
           "error_new_value": "Ambos límites del retraso aleatorio deben ser números válidos."
+        },
+        "distribution_drawer_settings": {
+          "title": "Personalizar la distribución",
+          "sub_text": "Dibuja con qué frecuencia debería aparecer cada retraso.",
+          "more_text": "Más frecuente",
+          "less_text": "Menos frecuente",
+          "clear_text": "Borrar"
         }
       },
       "recordings_menu": {

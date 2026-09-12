@@ -83,6 +83,13 @@
           "lower_text": "Inferior:",
           "upper_text": "Superior:",
           "error_new_value": "Ambos os limites do atraso aleatório devem ser números válidos."
+        },
+        "distribution_drawer_settings": {
+          "title": "Personalizar distribuição",
+          "sub_text": "Desenhe com que frequência cada atraso deve ocorrer.",
+          "more_text": "Mais frequente",
+          "less_text": "Menos frequente",
+          "clear_text": "Limpar"
         }
       },
       "recordings_menu": {

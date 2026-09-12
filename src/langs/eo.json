@@ -83,6 +83,13 @@
           "lower_text": "Malsupra:",
           "upper_text": "Supra:",
           "error_new_value": "Ambaŭ limoj de la hazarda prokrasto devas esti validaj nombroj."
+        },
+        "distribution_drawer_settings": {
+          "title": "Agordi distribuon",
+          "sub_text": "Desegnu, kiom ofta estu ĉiu prokrasto.",
+          "more_text": "Pli ofta",
+          "less_text": "Malpli ofta",
+          "clear_text": "Forigi"
         }
       },
       "recordings_menu": {
