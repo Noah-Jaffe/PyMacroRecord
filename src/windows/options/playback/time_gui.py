@@ -35,7 +35,7 @@ class TimeGui(Popup):
             to=24,
             width=10,
             validate="key",
-            validatecommand=(main_app.validate_cmd, "%d", "%P"),
+            validatecommand=(main_app.validate_cmd_int, "%d", "%P"),
         )
         hourValue = str(value // 3600)
         if self.type == "Scheduled" and self.time_format == "12 hours" and self.time_string == "PM" and int(hourValue) >= 12:
@@ -59,7 +59,7 @@ class TimeGui(Popup):
             to=60,
             width=10,
             validate="key",
-            validatecommand=(main_app.validate_cmd, "%d", "%P"),
+            validatecommand=(main_app.validate_cmd_int, "%d", "%P"),
         )
         minInput.insert(
             0, str((value % 3600) // 60)
@@ -75,7 +75,7 @@ class TimeGui(Popup):
             to=60,
             width=10,
             validate="key",
-            validatecommand=(main_app.validate_cmd, "%d", "%P"),
+            validatecommand=(main_app.validate_cmd_float, "%d", "%P"),
         )
         secInput.insert(0, str(value % 60))
         secInput.pack()

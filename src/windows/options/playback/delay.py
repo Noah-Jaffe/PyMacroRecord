@@ -12,7 +12,7 @@ class Delay(Popup):
         Label(self, text=main_app.text_content["options_menu"]["playback_menu"]["delay_settings"]["sub_text"], font=('Segoe UI', 10)).pack(side=TOP, pady=10)
         userSettings = main_app.settings.settings_dict
         setNewDelayInput = Spinbox(self, from_=1, to=100000000, width=7, validate="key",
-                              validatecommand=(main_app.validate_cmd, "%d", "%P"))
+                              validatecommand=(main_app.validate_cmd_float, "%d", "%P"))
         setNewDelayInput.delete(0, "end")
         setNewDelayInput.insert(0, str(userSettings["Playback"]["Repeat"]["Delay"]))
         setNewDelayInput.pack(pady=20)
