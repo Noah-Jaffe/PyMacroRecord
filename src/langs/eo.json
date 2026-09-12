@@ -41,7 +41,7 @@
         "speed_text": "Rapideco",
         "speed_settings": {
           "title": "Rapid-agordoj",
-          "sub_text": "Enmetu rapidecon inter 0.1 kaj 10",
+          "sub_text": "Enmetu rapidecon inter 0,1 kaj 10\nLa rapideca agordo influos nur la tempintervalon inter agoj,\nĝi ne influos aliajn agordojn rilatajn al tempo.",
           "error_new_value": "Via rapideco devas esti inter 0.1 kaj 10!"
         },
         "repeat_text": "Ripeto",

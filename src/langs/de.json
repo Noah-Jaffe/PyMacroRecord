@@ -41,7 +41,7 @@
         "speed_text": "Geschwindigkeit",
         "speed_settings": {
           "title": "Geschwindigkeit",
-          "sub_text": "Wählen Sie eine Geschwindigkeit zwischen 0.1 und 10",
+          "sub_text": "Wählen Sie eine Geschwindigkeit zwischen 0,1 und 10.\nDie Geschwindigkeitseinstellung wirkt sich nur auf das Zeitintervall zwischen den Aktionen aus,\nsie beeinflusst keine anderen zeitbezogenen Einstellungen.",
           "error_new_value": "Die Geschwindigkeit muss zwischen 0.1 und 10 liegen!"
         },
         "repeat_text": "Wiederholen",

@@ -41,7 +41,7 @@
         "speed_text": "Velocidade",
         "speed_settings": {
           "title": "Configurações de Velocidade",
-          "sub_text": "Digite um valor de velocidade entre 0.1 e 10",
+          "sub_text": "Digite um valor de velocidade entre 0,1 e 10\nA configuração de velocidade afetará apenas o intervalo de tempo entre as ações,\nisso não afetará outras configurações relacionadas ao tempo.",
           "error_new_value": "O valor de velocidade deve estar entre 0.1 e 10!"
         },
         "repeat_text": "Repetir",

@@ -41,7 +41,7 @@
         "speed_text": "Speed",
         "speed_settings": {
           "title": "Speed settings",
-          "sub_text": "Enter speed number between 0.1 and 10",
+          "sub_text": "Enter speed number between 0.1 and 10\nThe speed setting will only affect the time interval between actions,\nthis will not affect other settings that are time related.",
           "error_new_value": "Your speed value must be between 0.1 and 10!"
         },
         "repeat_text": "Repeat",

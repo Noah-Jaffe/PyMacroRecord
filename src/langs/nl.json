@@ -41,7 +41,7 @@
         "speed_text": "Snelheid",
         "speed_settings": {
           "title": "Snelheidsinstellingen",
-          "sub_text": "Geef snelheid tussen 0.1 and 10 in",
+          "sub_text": "Voer een snelheidsgetal tussen 0,1 en 10 in\nDe snelheidsinstelling heeft alleen invloed op het tijdsinterval tussen acties,\ndit heeft geen invloed op andere tijdgerelateerde instellingen.",
           "error_new_value": "De snelheid moet tussen 0.1 en 10 zijn!"
         },
         "repeat_text": "Herhaal",

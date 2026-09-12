@@ -41,7 +41,7 @@
         "speed_text": "速度",
         "speed_settings": {
           "title": "速度设置",
-          "sub_text": "设定速(0.1到10)",
+          "sub_text": "输入 0.1 到 10 之间的速度值\n速度设置只会影响操作之间的时间间隔，\n不会影响其他与时间相关的设置。",
           "error_new_value": "速度值必须为0.1到10之间的数值!"
         },
         "repeat_text": "重复",

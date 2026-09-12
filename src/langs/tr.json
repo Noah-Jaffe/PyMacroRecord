@@ -42,7 +42,7 @@
         "speed_text": "Hız",
         "speed_settings": {
           "title": "Hız ayarları",
-          "sub_text": "Hız değerini 0,1 ile 10 arasında girin",
+          "sub_text": "0,1 ile 10 arasında bir hız değeri girin\nHız ayarı yalnızca eylemler arasındaki zaman aralığını etkiler,\nzamanla ilgili diğer ayarları etkilemez.",
           "error_new_value": "Hız değeriniz 0,1 ile 10 arasında olmalıdır!"
         },
         "repeat_text": "Tekrarla",
