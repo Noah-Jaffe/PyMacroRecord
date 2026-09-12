@@ -1,4 +1,5 @@
 from datetime import datetime
+import random
 from os import getlogin, system
 from sys import platform
 from threading import Thread
@@ -15,6 +16,15 @@ from utils.record_file_management import RecordFileManagement
 from utils.show_toast import show_notification_minim
 from utils.warning_pop_up_save import confirm_save
 
+# at arbitrary times, we re-seed randomness so that it is harder to reverse-engineer the random usage
+def update_random_seed(seed=None, version=2):
+    """Update the random package seed.
+
+    Args:
+        seed (int|float|str|bytes|bytearray, optional): The seed to be used. None will default to using system time. Defaults to None (aka, system time).
+        version (1|2, optional): the version for the generation of seeding algorithm, the higher means the more advanced. Defaults to the maximum valid value.
+    """
+    random.seed(a=seed, version=version)
 
 class Macro:
     """Init a new Macro"""
@@ -223,9 +233,38 @@ class Macro:
                         self.macro_events["events"][events]["timestamp"]
                         * (1 / userSettings["Playback"]["Speed"])
                 )
-                if timeSleep < 0:
-                    timeSleep = abs(timeSleep)
-                sleep(timeSleep)
+
+                # base sleep time
+                base_ms = self.macro_events["events"][events]["timestamp"]
+                # the speed adjustments only affect the base interval between actions, it should not affect other time modifiers
+                adjusted_speed = 1/(userSettings["Playback"]["Speed"] or 1)
+                # randomized delay between actions, default to zero for no change
+                randomized_delay_ms = None
+                randomized_delay_opts = userSettings["Playback"].get("Randomized_Delay", {})
+                randomized_delay_weights = randomized_delay_opts.get("Distribution")
+                if randomized_delay_opts.get("Enabled", False):
+                    lower_bound = float(randomized_delay_opts["Lower"])
+                    upper_bound = float(randomized_delay_opts["Upper"])
+
+                    if lower_bound > upper_bound:
+                        lower_bound, upper_bound = upper_bound, lower_bound
+                    try:
+                        randomized_delay_ms = random.choices(range(lower_bound, upper_bound, (upper_bound-lower_bound)/(len(randomized_delay_weights) or 1)), weights=randomized_delay_weights, k=1)
+                    except Exception as e:
+                        print(e)
+                        pass
+                    if randomized_delay_ms is None:
+                        # default to linear/equal distribution if any issues occur
+                        randomized_delay_ms = ((upper_bound - lower_bound) * random.random()) + lower_bound
+                    
+                    update_random_seed()
+
+                # sleep for the adjusted speed delay, and add the randomized delay time
+                sleep_time = max(0, (base_ms * adjusted_speed) + ((randomized_delay_ms or 0)/1000))
+
+                sleep(sleep_time)
+
+                # continue to execute action
                 event_type = self.macro_events["events"][events]["type"]
 
                 if event_type == "cursorMove":  # Cursor Move
