@@ -75,6 +75,14 @@
           "title": "Réglage du délai",
           "sub_text": "Entrez un délai entre chaque répétition",
           "error_new_value": "Vous ne pouvez pas allez en dessous de 0 délai."
+        },
+        "randomized_delay_text": "Délai aléatoire",
+        "randomized_delay_settings": {
+          "title": "Paramètres du délai aléatoire",
+          "sub_text": "Configurez les limites du délai aléatoire entre les actions en millisecondes.\nLes valeurs inférieures à zéro permettront de réduire le temps avant l'action suivante,\n tandis que les valeurs supérieures à zéro permettront d'augmenter le temps avant l'action suivante.",
+          "lower_text": "Inférieure :",
+          "upper_text": "Supérieure :",
+          "error_new_value": "Les deux limites du délai aléatoire doivent être des nombres valides."
         }
       },
       "recordings_menu": {

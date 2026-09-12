@@ -76,6 +76,14 @@
           "title": "Gecikme ayarları",
           "sub_text": "Tekrarlama arasındaki gecikmeyi girin.",
           "error_new_value": "Gecikme süresi en az 0 olabilir"
+        },
+        "randomized_delay_text": "Rastgele gecikme",
+        "randomized_delay_settings": {
+          "title": "Rastgele gecikme ayarları",
+          "sub_text": "Eylemler arasındaki rastgele gecikme sınırlarını milisaniye cinsinden yapılandırın.\nSıfırın altındaki değerler bir sonraki eyleme kadar olan sürenin azalmasını,\n sıfırın üzerindeki değerler ise bu sürenin artmasını sağlar.",
+          "lower_text": "Alt:",
+          "upper_text": "Üst:",
+          "error_new_value": "Rastgele gecikmenin her iki sınırı da geçerli sayılar olmalıdır."
         }
       },
       "recordings_menu": {
@@ -168,9 +176,9 @@
       },
       "translators_text": "Çevirmenler",
       "translators_settings": {
-          "title": "Çevirmenler",
-          "sub_text": "Tüm çevirmenler",
-          "page": "Sayfa"
+        "title": "Çevirmenler",
+        "sub_text": "Tüm çevirmenler",
+        "page": "Sayfa"
       }
     }
   }

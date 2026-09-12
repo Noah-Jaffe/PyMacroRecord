@@ -75,6 +75,14 @@
           "title": "Ajustes de retrazo",
           "sub_text": "Introduzca el retraso entre repetición",
           "error_new_value": "No puede tener menos de 0 retrasos"
+        },
+        "randomized_delay_text": "Retraso aleatorio",
+        "randomized_delay_settings": {
+          "title": "Configuración del retraso aleatorio",
+          "sub_text": "Configure los límites del retraso aleatorio entre acciones en milisegundos.\nLos valores inferiores a cero permitirán reducir el tiempo hasta la siguiente acción,\n mientras que los valores superiores a cero permitirán aumentar el tiempo hasta la siguiente acción.",
+          "lower_text": "Inferior:",
+          "upper_text": "Superior:",
+          "error_new_value": "Ambos límites del retraso aleatorio deben ser números válidos."
         }
       },
       "recordings_menu": {

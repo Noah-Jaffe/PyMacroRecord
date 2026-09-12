@@ -75,6 +75,14 @@
           "title": "延迟设置",
           "sub_text": "输入每次重复回放之间的延迟",
           "error_new_value": "延迟必须大于0."
+        },
+        "randomized_delay_text": "随机延迟",
+        "randomized_delay_settings": {
+          "title": "随机延迟设置",
+          "sub_text": "以毫秒为单位配置操作之间的随机延迟范围。\n小于零的值将缩短执行下一操作前的时间，\n 大于零的值将延长执行下一操作前的时间",
+          "lower_text": "下限：",
+          "upper_text": "上限：",
+          "error_new_value": "随机延迟的两个范围都必须是有效数字。"
         }
       },
       "recordings_menu": {
@@ -167,9 +175,9 @@
       },
       "translators_text": "翻译者",
       "translators_settings": {
-          "title": "翻译者",
-          "sub_text": "所有翻译者",
-          "page": "第 页"
+        "title": "翻译者",
+        "sub_text": "所有翻译者",
+        "page": "第 页"
       }
     }
   }
