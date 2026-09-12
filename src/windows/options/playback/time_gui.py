@@ -90,6 +90,10 @@ class TimeGui(Popup):
         ).pack(side=LEFT, padx=10)
         Button(buttonArea, text=main_app.text_content["global"]["cancel_button"], command=self.destroy).pack(side=LEFT, padx=10)
         buttonArea.pack(side=BOTTOM, pady=10)
+        self.update_idletasks()
+        popup_width = min(max(300, self.winfo_reqwidth() + 10), 800)
+        popup_height = min(max(height, self.winfo_reqheight() + 10), 600)
+        self.geometry(f"{popup_width}x{popup_height}")
         self.wait_window()
         main_app.prevent_record = False
 

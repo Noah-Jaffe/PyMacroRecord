@@ -39,6 +39,10 @@ class Repeat(Popup):
                command=self.destroy).pack(side=LEFT, padx=5)
         buttonArea.pack(pady=10)
 
+        self.update_idletasks()
+        popup_width = min(max(300, self.winfo_reqwidth() + 10), 800)
+        popup_height = min(max(180, self.winfo_reqheight() + 10), 600)
+        self.geometry(f"{popup_width}x{popup_height}")
         self.wait_window()
         main_app.prevent_record = False
 
