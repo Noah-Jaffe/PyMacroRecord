@@ -79,7 +79,7 @@
         "randomized_delay_text": "Atraso aleatório",
         "randomized_delay_settings": {
           "title": "Configurações do atraso aleatório",
-          "sub_text": "Configure os limites do atraso aleatório entre ações em milissegundos.\nValores abaixo de zero permitirão reduzir o tempo até a próxima ação,\n enquanto valores acima de zero permitirão aumentar o tempo até a próxima ação.",
+          "sub_text": "Configure os limites do atraso aleatório entre ações em milissegundos.\nValores abaixo de zero reduzirão o tempo até a próxima ação.\nValores acima de zero aumentarão o tempo até a próxima ação.",
           "lower_text": "Inferior:",
           "upper_text": "Superior:",
           "error_new_value": "Ambos os limites do atraso aleatório devem ser números válidos."

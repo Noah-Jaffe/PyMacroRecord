@@ -79,7 +79,7 @@
         "randomized_delay_text": "Zufällige Verzögerung",
         "randomized_delay_settings": {
           "title": "Einstellungen für zufällige Verzögerung",
-          "sub_text": "Konfigurieren Sie die Grenzen der zufälligen Verzögerung zwischen Aktionen in Millisekunden.\nWerte unter null ermöglichen eine Verkürzung der Zeit bis zur nächsten Aktion,\n während Werte über null eine Verlängerung der Zeit bis zur nächsten Aktion ermöglichen.",
+          "sub_text": "Konfigurieren Sie die Grenzen der zufälligen Verzögerung zwischen Aktionen in Millisekunden.\nWerte unter null verkürzen die Zeit bis zur nächsten Aktion.\nWerte über null verlängern die Zeit bis zur nächsten Aktion.",
           "lower_text": "Untergrenze:",
           "upper_text": "Obergrenze:",
           "error_new_value": "Beide Grenzen der zufälligen Verzögerung müssen gültige Zahlen sein."

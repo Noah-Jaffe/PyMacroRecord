@@ -79,7 +79,7 @@
         "randomized_delay_text": "Hazarda prokrasto",
         "randomized_delay_settings": {
           "title": "Agordoj de hazarda prokrasto",
-          "sub_text": "Agordu la limojn de la hazarda prokrasto inter agoj en milisekundoj.\nValoroj sub nul permesos malpli da tempo ĝis la sekva ago,\n kaj valoroj super nul permesos pli da tempo ĝis la sekva ago.",
+          "sub_text": "Agordu la limojn de la hazarda prokrasto inter agoj en milisekundoj.\nValoroj sub nul reduktos la tempon ĝis la sekva ago.\nValoroj super nul pliigos la tempon ĝis la sekva ago.",
           "lower_text": "Malsupra:",
           "upper_text": "Supra:",
           "error_new_value": "Ambaŭ limoj de la hazarda prokrasto devas esti validaj nombroj."

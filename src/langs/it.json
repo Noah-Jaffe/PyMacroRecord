@@ -79,7 +79,7 @@
         "randomized_delay_text": "Ritardo casuale",
         "randomized_delay_settings": {
           "title": "Impostazioni del ritardo casuale",
-          "sub_text": "Configura i limiti del ritardo casuale tra le azioni in millisecondi.\nI valori inferiori a zero consentiranno di ridurre il tempo fino all'azione successiva,\n mentre i valori superiori a zero consentiranno di aumentare il tempo fino all'azione successiva.",
+          "sub_text": "Configura i limiti del ritardo casuale tra le azioni in millisecondi.\nI valori inferiori a zero ridurranno il tempo fino all'azione successiva.\nI valori superiori a zero aumenteranno il tempo fino all'azione successiva.",
           "lower_text": "Inferiore:",
           "upper_text": "Superiore:",
           "error_new_value": "Entrambi i limiti del ritardo casuale devono essere numeri validi."

@@ -79,7 +79,7 @@
         "randomized_delay_text": "Randomized delay",
         "randomized_delay_settings": {
           "title": "Randomized delay settings",
-          "sub_text": "Configure randomized delay bounds between actions in milliseconds.\nValues below zero will allow for decreased time to next action,\n  and above zero will allow for increased time to next action.",
+          "sub_text": "Configure randomized delay bounds between actions in milliseconds.\nValues below zero will allow for decreased time to next action.\nValues above zero will allow for increased time to next action.",
           "lower_text": "Lower:",
           "upper_text": "Upper:",
           "error_new_value": "Both randomized delay bounds must be valid numbers."

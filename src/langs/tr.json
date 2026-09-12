@@ -80,7 +80,7 @@
         "randomized_delay_text": "Rastgele gecikme",
         "randomized_delay_settings": {
           "title": "Rastgele gecikme ayarları",
-          "sub_text": "Eylemler arasındaki rastgele gecikme sınırlarını milisaniye cinsinden yapılandırın.\nSıfırın altındaki değerler bir sonraki eyleme kadar olan sürenin azalmasını,\n sıfırın üzerindeki değerler ise bu sürenin artmasını sağlar.",
+          "sub_text": "Eylemler arasındaki rastgele gecikme sınırlarını milisaniye cinsinden yapılandırın.\nSıfırın altındaki değerler bir sonraki eyleme kadar olan süreyi azaltır.\nSıfırın üzerindeki değerler bir sonraki eyleme kadar olan süreyi artırır.",
           "lower_text": "Alt:",
           "upper_text": "Üst:",
           "error_new_value": "Rastgele gecikmenin her iki sınırı da geçerli sayılar olmalıdır."
