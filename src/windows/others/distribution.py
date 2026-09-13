@@ -1,7 +1,7 @@
 import math
 import tkinter as tk
 from tkinter import BOTTOM, LEFT, RIGHT, TOP, Canvas
-from tkinter.ttk import Button, Combobox, Frame, Label, Spinbox
+from tkinter.ttk import Button, Combobox, Frame, Label
 
 from windows.popup import Popup
 
@@ -23,9 +23,6 @@ class DistributionDrawer(Popup):
 
     CANVAS_WIDTH = 600
     CANVAS_HEIGHT = 300
-    DEFAULT_SAMPLE_COUNT = 128
-    MIN_SAMPLE_COUNT = 1
-    MAX_SAMPLE_COUNT = 4096
     EDIT_RADIUS_X = 0.012
     ERASE_RADIUS_X = 0.018
 
@@ -130,24 +127,6 @@ class DistributionDrawer(Popup):
         )
         self.preset_description.pack(anchor="w", pady=(0, 12))
 
-        Label(control_frame, text="Number of samples / steps").pack(anchor="w")
-        self.steps_var = tk.StringVar(value=str(self.DEFAULT_SAMPLE_COUNT))
-        self.steps_spinbox = Spinbox(
-            control_frame,
-            from_=self.MIN_SAMPLE_COUNT,
-            to=self.MAX_SAMPLE_COUNT,
-            increment=1,
-            textvariable=self.steps_var,
-            width=10,
-            validate="key",
-            validatecommand=(self.register(self._validate_steps), "%P"),
-        )
-        self.steps_spinbox.pack(anchor="w", pady=(2, 2))
-        self._add_tooltip(
-            self.steps_spinbox,
-            "Controls how many evenly spaced points are saved when you apply the curve (1–4096).",
-        )
-
         Button(
             control_frame,
             text="Interpolate missing values",
@@ -191,21 +170,6 @@ class DistributionDrawer(Popup):
         popup_height = min(max(500, self.winfo_reqheight() + 10), 760)
         self.geometry(f"{popup_width}x{popup_height}")
         self.wait_window()
-
-    def _validate_steps(self, value):
-        if value == "":
-            return True
-        try:
-            return self.MIN_SAMPLE_COUNT <= int(value) <= self.MAX_SAMPLE_COUNT
-        except ValueError:
-            return False
-
-    def _get_sample_count(self):
-        try:
-            value = int(self.steps_var.get())
-        except ValueError:
-            value = self.DEFAULT_SAMPLE_COUNT
-        return max(self.MIN_SAMPLE_COUNT, min(self.MAX_SAMPLE_COUNT, value))
 
     def _add_tooltip(self, widget, text):
         tooltip = {"window": None}
@@ -458,14 +422,13 @@ class DistributionDrawer(Popup):
         self.preset_description.config(text=self._preset_description(name))
         if name == "Freehand":
             return
-        self.points = self._make_preset(self.PRESETS[name], self._get_sample_count())
+        self.points = self._make_preset(self.PRESETS[name])
         self._user_points = self.points.copy()
         self._stroke = []
         self.redraw()
 
-    def _make_preset(self, preset, sample_count):
-        if sample_count <= 1:
-            sample_count = 2
+    def _make_preset(self, preset):
+        sample_count = 256
         raw = []
         for index in range(sample_count):
             x = index / (sample_count - 1)
@@ -503,16 +466,16 @@ class DistributionDrawer(Popup):
 
     def interpolate_missing(self):
         """
-        Make the current drawing continuous at the selected number of steps.
+        Make the current drawing continuous.
         The interpolated values replace the visible drawing immediately.
         """
         if len(self.points) < 2:
             return
 
-        sample_count = self._get_sample_count()
+        sample_count = max(2, min(256, len(self.points) * 2))
         result = []
         for index in range(sample_count):
-            x = index / (sample_count - 1) if sample_count > 1 else 0.0
+            x = index / (sample_count - 1)
             y = self._interpolate(self.points, x)
             result.append((x, max(0.0, min(1.0, y))))
         # Preserve the existing user-selected points so they remain green.
@@ -535,16 +498,10 @@ class DistributionDrawer(Popup):
         if len(points) < 2:
             return None
 
-        sample_count = self._get_sample_count()
-        result = []
-        for index in range(sample_count):
-            x = index / (sample_count - 1) if sample_count > 1 else 0.0
-            y = self._interpolate(points, x)
-            result.append([round(x, 6), round(max(0.0, min(1.0, y)), 6)])
-
-        if max(point[1] for point in result) <= 0:
-            return None
-        return result
+        return [
+            [round(x, 6), round(max(0.0, min(1.0, y)), 6)]
+            for x, y in points
+        ]
 
     @staticmethod
     def _interpolate(points, x):
