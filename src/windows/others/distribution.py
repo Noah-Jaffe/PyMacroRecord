@@ -29,9 +29,13 @@ class DistributionDrawer(Popup):
     EDIT_RADIUS_X = 0.012
     ERASE_RADIUS_X = 0.018
 
+    USER_POINT_COLOR = "#4a890b"
+    INTERPOLATED_COLOR = "#4a0b89"
+
     PRESETS = {
         "Freehand": "freehand",
         "Linear": "linear",
+        "Uniform": "uniform",
         "Binomial": "binomial",
         "Logarithmic": "logarithmic",
         "Ex-Gaussian": "ex_gaussian",
@@ -43,6 +47,7 @@ class DistributionDrawer(Popup):
         self.lower_bound = lower_bound
         self.upper_bound = upper_bound
         self.points = []
+        self._user_points = []
         self._stroke = []
         self._editing = False
         self._erasing = False
@@ -158,7 +163,6 @@ class DistributionDrawer(Popup):
             control_frame.winfo_children()[-1],
             "Remove the entire curve. This is separate from right-drag erasing, which only removes a selected area.",
         )
-
         # The bottom row is intentionally reserved for the popup actions only.
         bottom_frame = Frame(self)
         bottom_frame.pack(side=BOTTOM, fill="x", pady=(5, 10))
@@ -237,6 +241,7 @@ class DistributionDrawer(Popup):
         descriptions = {
             "Freehand": "Draw any shape manually. Existing curve sections outside your stroke are preserved.",
             "Linear": "A straight ramp from low frequency to high frequency across the range.",
+            "Uniform": "A uniform distribution across the range.",
             "Binomial": "A bell-like discrete distribution, useful when outcomes cluster around a central value.",
             "Logarithmic": "Changes quickly near the low end and more gradually toward the high end.",
             "Ex-Gaussian": "A Gaussian-shaped peak with a longer tail, useful for skewed timing-like data.",
@@ -270,6 +275,7 @@ class DistributionDrawer(Popup):
         self._stroke = []
         self._editing = False
         self.points = self._normalize_points(self.points)
+        self._user_points = self._normalize_points(self._user_points)
         self.redraw()
 
     def start_erasing(self, event):
@@ -289,6 +295,7 @@ class DistributionDrawer(Popup):
         self._editing = False
         self._erasing = False
         self.points = self._normalize_points(self.points)
+        self._user_points = self._normalize_points(self._user_points)
         self.redraw()
 
     def _merge_stroke_into_curve(self):
@@ -302,6 +309,7 @@ class DistributionDrawer(Popup):
 
         if not self.points:
             self.points = stroke
+            self._user_points = stroke.copy()
             return
 
         left_y = self._interpolate(self.points, stroke_min)
@@ -316,6 +324,14 @@ class DistributionDrawer(Popup):
         merged.extend(stroke)
         self.points = self._normalize_points(merged)
 
+        self._user_points = [
+            (x, y)
+            for x, y in self._user_points
+            if x < stroke_min or x > stroke_max
+        ]
+        self._user_points.extend(stroke)
+        self._user_points = self._normalize_points(self._user_points)
+
     def _erase_at(self, canvas_x, canvas_y):
         x = self._canvas_to_normalized_x(canvas_x)
         y = self._canvas_to_normalized_y(canvas_y)
@@ -326,6 +342,14 @@ class DistributionDrawer(Popup):
             if x_distance > self.ERASE_RADIUS_X or y_distance > 0.08:
                 remaining.append((px, py))
         self.points = remaining
+
+        remaining_user = []
+        for px, py in self._user_points:
+            x_distance = abs(px - x)
+            y_distance = abs(py - y)
+            if x_distance > self.ERASE_RADIUS_X or y_distance > 0.08:
+                remaining_user.append((px, py))
+        self._user_points = remaining_user
 
     def _canvas_to_normalized_x(self, x):
         x = max(0, min(self.CANVAS_WIDTH, x))
@@ -363,26 +387,47 @@ class DistributionDrawer(Popup):
                 merged.append((x, y))
         return merged
 
+    def _is_user_point(self, point):
+        x, y = point
+        return any(abs(user_x - x) < 0.003 and abs(user_y - y) < 0.003 for user_x, user_y in self._user_points)
+
     def redraw(self):
         self.canvas.delete("distribution")
-        if not self.points:
-            return
-        coords = []
-        for x, y in self.points:
-            canvas_x, canvas_y = self._normalized_to_canvas(x, y)
-            coords.extend((canvas_x, canvas_y))
-        if len(coords) >= 4:
-            self.canvas.create_line(*coords, width=3, smooth=True, tags="distribution")
-        else:
-            x, y = self._normalized_to_canvas(self.points[0][0], self.points[0][1])
-            self.canvas.create_oval(x - 2, y - 2, x + 2, y + 2, tags="distribution")
+        if self.points:
+            coords = []
+            for x, y in self.points:
+                canvas_x, canvas_y = self._normalized_to_canvas(x, y)
+                coords.extend((canvas_x, canvas_y))
+            if len(coords) >= 4:
+                self.canvas.create_line(*coords, width=3, smooth=True, fill=self.INTERPOLATED_COLOR, tags="distribution")
+            else:
+                x, y = self._normalized_to_canvas(self.points[0][0], self.points[0][1])
+                self.canvas.create_oval(x - 2, y - 2, x + 2, y + 2, fill=self.USER_POINT_COLOR, outline=self.USER_POINT_COLOR, tags="distribution")
+            for x, y in self.points:
+                canvas_x, canvas_y = self._normalized_to_canvas(x, y)
+                if self._is_user_point((x, y)):
+                    radius = 3
+                    self.canvas.create_oval(
+                        canvas_x - radius,
+                        canvas_y - radius,
+                        canvas_x + radius,
+                        canvas_y + radius,
+                        fill=self.USER_POINT_COLOR,
+                        outline=self.USER_POINT_COLOR,
+                        tags="distribution",
+                    )
 
-        # Keep a live preview of the current stroke while drawing.
         if len(self._stroke) >= 2:
             stroke_coords = []
             for x, y in self._stroke:
                 stroke_coords.extend(self._normalized_to_canvas(x, y))
-            self.canvas.create_line(*stroke_coords, width=3, dash=(5, 3), tags="distribution")
+
+            self.canvas.create_line(*stroke_coords, width=3, dash=(5, 3), fill=self.USER_POINT_COLOR, tags="distribution")
+
+            for x, y in self._stroke:
+                canvas_x, canvas_y = self._normalized_to_canvas(x, y)
+                radius = 3
+                self.canvas.create_oval(canvas_x - radius, canvas_y - radius, canvas_x + radius, canvas_y + radius, fill=self.USER_POINT_COLOR, outline=self.USER_POINT_COLOR, tags="distribution")
 
     def load_distribution(self, distribution):
         if not distribution:
@@ -396,12 +441,15 @@ class DistributionDrawer(Popup):
                 y = max(0.0, min(1.0, float(point[1])))
                 points.append((x, y))
             self.points = self._normalize_points(points)
+            self._user_points = self.points.copy()
             self.redraw()
         except (TypeError, ValueError):
             self.points = []
+            self._user_points = []
 
     def clear(self):
         self.points = []
+        self._user_points = []
         self._stroke = []
         self.redraw()
 
@@ -411,6 +459,7 @@ class DistributionDrawer(Popup):
         if name == "Freehand":
             return
         self.points = self._make_preset(self.PRESETS[name], self._get_sample_count())
+        self._user_points = self.points.copy()
         self._stroke = []
         self.redraw()
 
@@ -422,8 +471,14 @@ class DistributionDrawer(Popup):
             x = index / (sample_count - 1)
             if preset == "linear":
                 y = x
+            elif preset == "uniform":
+                if x == 0:
+                    y = 0
+                elif x == 1:
+                    y = 1
+                else:
+                    y = 0.5
             elif preset == "binomial":
-                # Symmetric binomial PMF sampled across a continuous x range.
                 n = 12
                 k = round(n * x)
                 pmf = math.comb(n, k) * (0.5 ** n)
@@ -431,7 +486,7 @@ class DistributionDrawer(Popup):
             elif preset == "logarithmic":
                 y = math.log1p(9.0 * x) / math.log(10.0)
             elif preset == "ex_gaussian":
-                y = self._ex_gaussian_pdf(x, mu=0.42, sigma=0.13, rate=5.5)
+                y = self._ex_gaussian_pdf(x, mu=0.62, sigma=0.10, rate=3.0)
             else:
                 y = 0.0
             raw.append((x, y))
@@ -443,11 +498,7 @@ class DistributionDrawer(Popup):
 
     @staticmethod
     def _ex_gaussian_pdf(x, mu, sigma, rate):
-        value = (rate / 2.0) * math.exp(
-            rate * (mu - x) + (rate * rate * sigma * sigma) / 2.0
-        ) * math.erfc(
-            (mu + (rate * sigma * sigma) - x) / (math.sqrt(2.0) * sigma)
-        )
+        value = (rate / 2.0) * math.exp(rate * (mu - x) + (rate * rate * sigma * sigma) / 2.0) * math.erfc((mu + (rate * sigma * sigma) - x) / (math.sqrt(2.0) * sigma))
         return max(0.0, value)
 
     def interpolate_missing(self):
@@ -464,7 +515,9 @@ class DistributionDrawer(Popup):
             x = index / (sample_count - 1) if sample_count > 1 else 0.0
             y = self._interpolate(self.points, x)
             result.append((x, max(0.0, min(1.0, y))))
+        # Preserve the existing user-selected points so they remain green.
         self.points = result
+        self._user_points = self._normalize_points(self._user_points)
         self.redraw()
 
     def apply(self):
