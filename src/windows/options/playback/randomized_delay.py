@@ -1,7 +1,7 @@
 from tkinter import BOTTOM, LEFT, TOP, Spinbox, messagebox
 from tkinter.ttk import Button, Frame, Label
 from sys import maxsize as INT_BOUND
-from src.windows.others.distribution import DistributionDrawer
+from windows.others.distribution import DistributionDrawer
 from windows.popup import Popup
 
 class RandomizedDelay(Popup):
