@@ -42,6 +42,7 @@ class UserSettings:
                     "Enabled": False,
                     "Lower": 0,
                     "Upper": 0,
+                    "Distribution": []
                 },
                 "Repeat": {
                     "Times": 1,
@@ -85,7 +86,7 @@ class UserSettings:
 
             "After_Playback": {
                 "Mode": "Idle"
-                # Quit, Lock Computer, Lof off computer, Turn off computer, Restart Computer, Standby, Hibernate
+                # Quit, Lock Computer, Log off computer, Turn off computer, Restart Computer, Standby, Hibernate
             },
 
             "Language": "en",
@@ -157,6 +158,7 @@ class UserSettings:
                 "Enabled": False,
                 "Lower": 0,
                 "Upper": 0,
+                "Distribution": []
             }
         else:
             randomized_delay = userSettings["Playback"]["Randomized_Delay"]
