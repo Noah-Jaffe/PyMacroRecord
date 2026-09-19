@@ -146,6 +146,9 @@ class MainApp(Window):
         """Prevents from adding letters on an Entry label"""
         if action == "1":  # Insert
             try:
+                if value_if_allowed == '-':
+                    # edge case of negative numbers, this allows you to put the negative value in first
+                    return True
                 float(value_if_allowed)
                 return True
             except ValueError:
