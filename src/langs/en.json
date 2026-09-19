@@ -85,11 +85,78 @@
           "error_new_value": "Both randomized delay bounds must be valid numbers."
         },
         "distribution_drawer_settings": {
-          "title": "Customize distribution",
-          "sub_text": "Draw how common each delay should be.",
-          "more_text": "More common",
-          "less_text": "Less common",
-          "clear_text": "Clear"
+          "title": "Distribution Editor",
+          "distribution_instruction_text": "Draw the curve to represent how often each delay value is chosen.\nHorizontal axis is the delay range; left is minimum, right is maximum.\nVertical axis is the relative frequency; higher values are chosen more often.",
+          "help_instructions_text": "Left-drag to draw • Drag a point vertically to move it • Right-drag to erase",
+          "axis_information": {
+            "vertical": {
+              "high_text": "More common",
+              "low_text": "Less common",
+              "tooltip_text": "Higher values mean that delay value is more common.\nThe vertical axis uses a constant linear scale."
+            },
+            "horizontal": {
+              "high_text": "Max delay",
+              "low_text": "Min delay",
+              "high_value_text": "Max: {value}",
+              "low_value_text": "Min: {value}",
+              "tooltip_text": "The X value is the randomized delay.\nThe horizontal axis uses a constant linear scale."
+            }
+          },
+          "settings_information": {
+            "header_text": "Curve controls",
+            "preset_text": "Preset",
+            "preset_tooltip_text": "Choose a starting curve shape.",
+            "interpolate_text": "Interpolation",
+            "interpolate_tooltip_text": "Choose whether the curve uses sharp angles or smooth curves.",
+            "interpolate_button_text": "Interpolate",
+            "interpolate_button_tooltip_text": "Fill gaps in the current drawing using the selected interpolation type.",
+            "clear_text": "Clear",
+            "clear_tooltip_text": "Remove the entire curve. This is separate from right-drag erasing, which removes only the selected area.",
+            "interpolation_types": {
+              "sharp": {
+                "label_text": "Sharp angles"
+              },
+              "curves": {
+                "label_text": "Curves"
+              }
+            }
+          },
+          "presets": {
+            "freehand": {
+              "label_text": "Freehand",
+              "description_text": "Draw any shape manually.",
+              "note_text": "Does not change the existing curve."
+            },
+            "linear": {
+              "label_text": "Linear",
+              "description_text": "Starts as a flat, uniform distribution in the middle of the drawing area.",
+              "note_text": "Resets the existing curve."
+            },
+            "bell": {
+              "label_text": "Bell curve",
+              "description_text": "Starts as one or more bell shapes. Adjust the center, width, tail, and number of peaks.",
+              "note_text": "Resets the existing curve.",
+              "controls": {
+                "header_text": "Bell controls",
+                "center_text": "Center (%)",
+                "center_tooltip_text": "Lower values move the bell left. Higher values move it right.",
+                "width_text": "Width (%)",
+                "width_tooltip_text": "Lower values make the bell narrower and taller. Higher values make it wider and flatter.",
+                "tail_magnitude_text": "Tail amount (%)",
+                "tail_magnitude_tooltip_text": "0 keeps the tails symmetrical. Higher values make the selected tail shorter and less pronounced.",
+                "tail_side_text": "Tail side",
+                "tail_side_negative_text": "Left",
+                "tail_side_positive_text": "Right",
+                "tail_side_tooltip_text": "Choose which tail is adjusted. Left uses a negative sign; right uses a positive sign.",
+                "peaks_text": "Peaks",
+                "peaks_tooltip_text": "0 creates a linear distribution. 1 creates one bell. Higher values create that many bells.",
+                "reset_text": "Reset to normal curve",
+                "reset_tooltip_text": "Restore the default normal bell curve settings.",
+                "apply_text": "Apply bell settings",
+                "apply_tooltip_text": "Update the bell curve using the current settings."
+              }
+            }
+          }
         }
       },
       "recordings_menu": {
