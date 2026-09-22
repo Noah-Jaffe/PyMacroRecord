@@ -290,11 +290,11 @@ class Macro:
                                     else:
                                         self.keyboardControl.release(keyToPress)
                         except ValueError as e:
-                            messagebox.showerror("Error",
+                            messagebox.showerror(self.main_app.text_content["global"]["error"],
                                                  f"Error during playback \"{e}\". Please open an issue on Github.")
                             self.stop_playback()
                         except Exception as e:
-                            messagebox.showerror("Error",
+                            messagebox.showerror(self.main_app.text_content["global"]["error"],
                                                  f"An unexpected error occurred\n{e}")
                             self.stop_playback()
 
