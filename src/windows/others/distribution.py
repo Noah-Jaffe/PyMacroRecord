@@ -117,10 +117,19 @@ class DistributionDrawer(Popup):
 
     def _build_ui(self):
         """Build all ui elements for this popup window."""
-        Label(self, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["distribution_instruction_text"], font=("Segoe UI", 10), justify="left", anchor="w").pack(side=TOP, fill="x", padx=15, pady=(10, 8))
-        content = Frame(self)
-        content.pack(fill="both", expand=True, padx=15, pady=(0, 4))
-        content.columnconfigure(0, weight=1)
+        layout = Frame(self)
+        layout.pack(fill="both", expand=True)
+        layout.columnconfigure(0, weight=1)
+        layout.rowconfigure(1, weight=1)
+        self._layout_root = layout
+
+        instruction = Label(layout, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["distribution_instruction_text"], font=("Segoe UI", 10), justify="left", anchor="w")
+        instruction.grid(row=0, column=0, sticky="ew", padx=15, pady=(10, 8))
+
+        content = Frame(layout)
+        content.grid(row=1, column=0, sticky="nsew", padx=15, pady=(0, 4))
+        content.columnconfigure(0, weight=3, minsize=1)
+        content.columnconfigure(1, weight=2, minsize=self.CONTROL_WIDTH + 15)
         content.rowconfigure(0, weight=1)
         self._build_graph(content)
         self._build_settings_panel(content)
@@ -130,13 +139,13 @@ class DistributionDrawer(Popup):
         graph_frame = Frame(parent)
         graph_frame.grid(row=0, column=0, sticky="nsew")
         graph_frame.rowconfigure(1, weight=1)
-        graph_frame.columnconfigure(1, weight=1)
+        graph_frame.columnconfigure(0, weight=1)
         high_label = Label(graph_frame, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["vertical"]["high_text"])
-        high_label.grid(row=0, column=1, sticky="w", pady=(0, 2))
+        high_label.grid(row=0, column=0, sticky="w", pady=(0, 2))
         Tooltip(high_label, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["vertical"]["tooltip_text"])
 
         canvas_frame = Frame(graph_frame, relief="solid", borderwidth=1)
-        canvas_frame.grid(row=1, column=1, sticky="nsew")
+        canvas_frame.grid(row=1, column=0, sticky="nsew")
         canvas_frame.rowconfigure(0, weight=1)
         canvas_frame.columnconfigure(0, weight=1)
 
@@ -154,7 +163,7 @@ class DistributionDrawer(Popup):
         self.canvas.bind("<Button-5>", self._on_mousewheel_zoom, add="+")
 
         info_area = Frame(graph_frame)
-        info_area.grid(row=2, column=1, sticky="ew", pady=(4, 0))
+        info_area.grid(row=2, column=0, sticky="ew", pady=(4, 0))
         info_area.columnconfigure(0, weight=1)
         info_area.columnconfigure(1, weight=1)
         info_area.columnconfigure(2, weight=1)
@@ -163,22 +172,27 @@ class DistributionDrawer(Popup):
         self.axis_percent_labels = []
         for index in range(5):
             label = Label(info_area, text="", foreground=self.AXIS_TEXT_COLOR)
-            label.grid(row=0, column=index, sticky="ew")
+            if index == 0:
+                label.grid(row=0, column=index, sticky="w")
+            elif index == 4:
+                label.grid(row=0, column=index, sticky="e")
+            else:
+                label.grid(row=0, column=index)
             self.axis_percent_labels.append(label)
 
         bounds_area = Frame(graph_frame)
-        bounds_area.grid(row=3, column=1, sticky="ew")
+        bounds_area.grid(row=3, column=0, sticky="ew")
         bounds_area.columnconfigure(0, weight=1)
         bounds_area.columnconfigure(1, weight=1)
-        self.lower_bound_label = Label(bounds_area, text=f'{self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["horizontal"]["low_value_text" ]}: {self._format_number(self.lower_bound)}', anchor="w")
+        self.lower_bound_label = Label(bounds_area, text=f'{self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["horizontal"]["low_text" ]}: {self._format_number(self.lower_bound)}', anchor="w")
         self.lower_bound_label.grid(row=0, column=0, sticky="w")
-        self.upper_bound_label = Label(bounds_area, text=f'{self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["horizontal"]["high_value_text"]}: {self._format_number(self.upper_bound)}', anchor="e")
+        self.upper_bound_label = Label(bounds_area, text=f'{self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["horizontal"]["high_text"]}: {self._format_number(self.upper_bound)}', anchor="e")
         self.upper_bound_label.grid(row=0, column=1, sticky="e")
         Tooltip(bounds_area, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["horizontal"]["tooltip_text"])
 
         low_label = Label(graph_frame, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["axis_information"]["vertical"]["low_text"])
-        low_label.grid(row=4, column=1, sticky="w", pady=(2, 0))
-        Label(graph_frame, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["help_instructions_text"], foreground="#666666", justify="left", wraplength=560).grid(row=5, column=1, sticky="w", pady=(6, 0))
+        low_label.grid(row=4, column=0, sticky="w", pady=(2, 0))
+        Label(graph_frame, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["help_instructions_text"], foreground="#666666", justify="left", wraplength=560).grid(row=5, column=0, sticky="w", pady=(6, 0))
 
     def _build_settings_panel(self, parent):
         panel = Frame(parent, relief="solid", borderwidth=1)
@@ -219,9 +233,12 @@ class DistributionDrawer(Popup):
 
         self.curve_generation_frame = Frame(self.controls_inner)
         self._build_curve_generation_controls(self.curve_generation_frame)
+        self.curve_generation_frame.pack(fill="x", pady=(0, 5))
+        self.curve_generation_frame.pack_forget()
 
         Separator(self.controls_inner, orient="horizontal").pack(fill="x", pady=6)
         interpolation_section = Frame(self.controls_inner)
+        self.interpolation_section = interpolation_section
         interpolation_section.pack(fill="x", pady=(0, 10))
         Label(interpolation_section, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["settings_information"]["interpolate_text"]).pack(anchor="w")
         Tooltip(interpolation_section, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["settings_information"]["interpolate_tooltip_text"])
@@ -294,10 +311,13 @@ class DistributionDrawer(Popup):
         Tooltip(zoom_frame, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["settings_information"]["zoom_tooltip_text"])
 
     def _build_action_bar(self):
-        action_bar = Frame(self)
-        action_bar.pack(side=BOTTOM, pady=8)
-        Button(action_bar, text=self.main_app.text_content["global"]["apply_button"], command=self.apply).pack(side=LEFT, padx=5)
-        Button(action_bar, text=self.main_app.text_content["global"]["cancel_button"], command=self.cancel).pack(side=LEFT, padx=5)
+        action_bar = Frame(self._layout_root)
+        action_bar.grid(row=2, column=0, sticky="ew", padx=15, pady=8)
+        buttons = Frame(action_bar)
+        buttons.pack(anchor="center")
+        Button(buttons, text=self.main_app.text_content["global"]["apply_button"], command=self.apply).pack(side=LEFT, padx=5)
+        Button(buttons, text=self.main_app.text_content["global"]["cancel_button"], command=self.cancel).pack(side=LEFT, padx=5)
+        self.action_bar = action_bar
 
     def _add_section_header(self, parent, text):
         Label(parent, text=text, font=("Segoe UI", 10, "bold")).pack(anchor="w", pady=(0, 6))
@@ -399,6 +419,9 @@ class DistributionDrawer(Popup):
             self._redraw()
             return
         self.curve_generation_frame.pack(fill="x", pady=(0, 5))
+        self.curve_generation_frame.lift()
+        self._update_controls_scroll_region()
+        self._schedule_scroll_state_update()
         self.interpolation_mode = "curves"
         self.interpolation_var.set(self._interpolation_label_by_key["curves"])
         self._generate_curve()
@@ -508,6 +531,8 @@ class DistributionDrawer(Popup):
             self.preset = "curve_generation"
             self._update_preset_description("curve_generation")
             self.curve_generation_frame.pack(fill="x", pady=(0, 5))
+            self._update_controls_scroll_region()
+            self._schedule_scroll_state_update()
         if not self._validate_generator_inputs():
             self._show_generator_error()
             return
@@ -535,6 +560,8 @@ class DistributionDrawer(Popup):
                 self.preset = "curve_generation"
                 self._update_preset_description("curve_generation")
                 self.curve_generation_frame.pack(fill="x", pady=(0, 5))
+                self._update_controls_scroll_region()
+                self._schedule_scroll_state_update()
             self.interpolation_mode = "curves"
             self.interpolation_var.set(self._interpolation_label_by_key["curves"])
 
