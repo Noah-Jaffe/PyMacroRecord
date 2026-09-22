@@ -43,7 +43,7 @@ class DistributionDrawer(Popup):
     ZERO_VERTICAL_AXIS_MARK_COLOR = "#9f9f9f"
     BASELINE_COLOR = "#8c8c8c"
     AXIS_TEXT_COLOR = "#555555"
-    STROKE_COLOR = "#4a890b9f"
+    STROKE_COLOR = "#4a890b"
 
     PRESET_KEYS = ("freehand", "linear", "curve_generation")
     INTERPOLATION_KEYS = ("sharp", "curves")
@@ -53,7 +53,7 @@ class DistributionDrawer(Popup):
         "center": 50,
         "width": 20,
         "height": 100,
-        "tail": 0,
+        "tail_side": 0,
         "asymmetry": 0,
         "tail_side": TAIL_SIDE_KEYS[0],
         "peaks": 1,
@@ -107,6 +107,12 @@ class DistributionDrawer(Popup):
     def _initialize_variables(self):
         self.preset_var = StringVar(value=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["presets"]["freehand"]["label_text"])
         self.interpolation_var = StringVar(value=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["settings_information"]["interpolation_types"]["curves_text"])
+        self.generator_center_var = StringVar()
+        self.generator_width_var = StringVar()
+        self.generator_height_var = StringVar()
+        self.generator_asymmetry_var = StringVar()
+        self.generator_tail_side_var = StringVar()
+        self.generator_peaks_var = StringVar()
         self._reset_generator(set_active_preset_to_generator=False)
 
     def _build_ui(self):
@@ -241,13 +247,14 @@ class DistributionDrawer(Popup):
         self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["center_text"], self.generator_center_var, 0.0, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["center_tooltip_text"], "float")
         self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["width_text"], self.generator_width_var, 0.5, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["width_tooltip_text"], "float")
         self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["height_text"], self.generator_height_var, 0.0, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["height_tooltip_text"], "float")
-        self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["tail_text"]  , self.generator_tail_var  , 0.0, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["tail_tooltip_text"],   "float")
+        self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["tail_text"]  , self.generator_tail_side_var  , 0.0, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["tail_tooltip_text"],   "float")
         Label(parent, text=self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["tail_side_text"]).pack(anchor="w", pady=(3, 1))
         tail_labels = {
             k: self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"][f"tail_side_{k}_text"]
             for k in self.TAIL_SIDE_KEYS
         }
         self._tail_side_key_by_label = {label: key for key, label in tail_labels.items()}
+        self._tail_side_label_by_key = {key: label for key, label in tail_labels.items()}
         self.tail_side_box = Combobox(parent, textvariable=self.generator_tail_side_var, values=list(tail_labels.values()), state="readonly", width=22)
         self.tail_side_box.pack(fill="x", pady=(0, 3))
         self._add_numeric_entry(parent, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["asymmetry_text"], self.generator_asymmetry_var, -100.0, 100.0, self.main_app.text_content["options_menu"]["playback_menu"]["distribution_drawer_settings"]["curve_generation"]["asymmetry_tooltip_text"], "float")
@@ -518,9 +525,8 @@ class DistributionDrawer(Popup):
         self.generator_center_var.set(str(self.CURVE_CONTROLS_DEFAULTS["center"]))
         self.generator_width_var.set(str(self.CURVE_CONTROLS_DEFAULTS["width"]))
         self.generator_height_var.set(str(self.CURVE_CONTROLS_DEFAULTS["height"]))
-        self.generator_tail_var.set(str(self.CURVE_CONTROLS_DEFAULTS["tail"]))
+        self.generator_tail_side_var.set(str(self.CURVE_CONTROLS_DEFAULTS["tail_side"]))
         self.generator_asymmetry_var.set(str(self.CURVE_CONTROLS_DEFAULTS["asymmetry"]))
-        self.generator_tail_side_var.set(self.CURVE_CONTROLS_DEFAULTS["tail_side"])
         self.generator_peaks_var.set(self.CURVE_CONTROLS_DEFAULTS["peaks"])
         if set_active_preset_to_generator:
             self.after_idle(self._rebuild_peak_controls)
@@ -538,7 +544,7 @@ class DistributionDrawer(Popup):
             (self.generator_center_var, 0.0, 100.0),
             (self.generator_width_var, 0.5, 100.0),
             (self.generator_height_var, 0.0, 100.0),
-            (self.generator_tail_var, 0.0, 100.0),
+            (self.generator_tail_side_var, 0.0, 100.0),
             (self.generator_asymmetry_var, -100.0, 100.0)
         )
         for variable, minimum, maximum in fields:
@@ -565,7 +571,7 @@ class DistributionDrawer(Popup):
             center = float(self.generator_center_var.get()) / 100.0
             width = max(0.005, float(self.generator_width_var.get()) / 100.0)
             height = max(0.0, float(self.generator_height_var.get()) / 100.0)
-            tail = max(0.0, min(1.0, float(self.generator_tail_var.get()) / 100.0))
+            tail = max(0.0, min(1.0, float(self.generator_tail_side_var.get()) / 100.0))
             asymmetry = max(-1.0, min(1.0, float(self.generator_asymmetry_var.get()) / 100.0))
             peak_specs = []
             for row in self._peak_rows:
